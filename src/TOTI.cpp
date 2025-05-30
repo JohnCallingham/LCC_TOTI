@@ -20,8 +20,8 @@ void TOTI::initialise() {
 }
 
 int TOTI::getEventForCurrentState() {
-  if (this->isNotOccupied()) return eventIndexOFF;
-  if (this->isOccupied()) return eventIndexON;
+  if (this->isOccupied()) return eventIndexOccupied;
+  if (this->isNotOccupied()) return eventIndexNotOccupied;
   return -1; //error.
 }
 
@@ -29,14 +29,36 @@ int TOTI::process() {
   if (this->isNotOccupied() && digitalRead(inputPin) == LOW) {
     this->currentState = State::OCCUPIED;
     digitalWrite(outputPin, HIGH); // light the output LED.
-    return eventIndexON;
+    return eventIndexOccupied;
   }
 
   if (this->isOccupied() && digitalRead(inputPin) == HIGH) {
     this->currentState = State::NOT_OCCUPIED;
     digitalWrite(outputPin, LOW); // extinguish the output LED.
-    return eventIndexOFF;
+    return eventIndexNotOccupied;
   }
 
   return -1;
+}
+
+bool TOTI::eventIndexMatchesThisTOTI(uint16_t index) {
+  if ((index == this->eventIndexOccupied) || (index == this->eventIndexNotOccupied)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool TOTI::eventIndexMatchesCurrentState(uint16_t index) {
+  if ((index == this->eventIndexOccupied) && (currentState == State::OCCUPIED)) {
+    return true;
+  } else {
+    return false;
+  }
+
+  if ((index == this->eventIndexNotOccupied) && (currentState == State::NOT_OCCUPIED)) {
+    return true;
+  } else {
+    return false;
+  }
 }

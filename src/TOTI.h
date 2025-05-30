@@ -18,8 +18,12 @@ class TOTI {
   public:
     void setInputPin(uint8_t inputPin) { this->inputPin = inputPin; }
     void setOutputPin(uint8_t outputPin) { this->outputPin = outputPin; }
-    void setEventIndexON(uint16_t eventIndexON) { this->eventIndexON = eventIndexON; }
-    void setEventIndexOFF(uint16_t eventIndexOFF) { this->eventIndexOFF = eventIndexOFF; }
+    void setEventIndexOccupied(uint16_t eventIndexOccupied) { this->eventIndexOccupied = eventIndexOccupied; }
+    void setEventIndexNotOccupied(uint16_t eventIndexNotOccupied) { this->eventIndexNotOccupied = eventIndexNotOccupied; }
+    // uint16_t getEventIndexOccupied() { return this->eventIndexOccupied; }
+    // uint16_t getEventIndexNotOccupied() { return this->eventIndexNotOccupied; }
+    bool eventIndexMatchesThisTOTI(uint16_t index);
+    bool eventIndexMatchesCurrentState(uint16_t index);
 
     bool isOccupied() { if (this->currentState == State::OCCUPIED) return true; else return false; }
     bool isNotOccupied() { if (this->currentState == State::NOT_OCCUPIED) return true; else return false; }
@@ -47,8 +51,8 @@ class TOTI {
     enum State { NOT_OCCUPIED, OCCUPIED };
     uint8_t inputPin;
     uint8_t outputPin;
-    uint16_t eventIndexON;
-    uint16_t eventIndexOFF;
+    uint16_t eventIndexOccupied;
+    uint16_t eventIndexNotOccupied;
     State currentState;
 };
 
