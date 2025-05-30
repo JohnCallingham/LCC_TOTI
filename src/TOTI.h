@@ -6,7 +6,7 @@
  * 1. Initialises the object without sending any events. Uses initialise().
  * 2. Sends events based on the current state at the time the hub is connected. Uses getEventForCurrentState().
  * 3. Sends events when a TOTI changes state. Uses process().
- * 4. Responds to a query from JMRI for current state based on event index. Uses isNotOccupied() and isOccupied().
+ * 4. Responds to a query from JMRI for current state based on event index. Uses eventIndexMatchesThisTOTI() and eventIndexMatchesCurrentState().
  */
 
 #include <Arduino.h>
@@ -20,13 +20,17 @@ class TOTI {
     void setOutputPin(uint8_t outputPin) { this->outputPin = outputPin; }
     void setEventIndexOccupied(uint16_t eventIndexOccupied) { this->eventIndexOccupied = eventIndexOccupied; }
     void setEventIndexNotOccupied(uint16_t eventIndexNotOccupied) { this->eventIndexNotOccupied = eventIndexNotOccupied; }
-    // uint16_t getEventIndexOccupied() { return this->eventIndexOccupied; }
-    // uint16_t getEventIndexNotOccupied() { return this->eventIndexNotOccupied; }
-    bool eventIndexMatchesThisTOTI(uint16_t index);
-    bool eventIndexMatchesCurrentState(uint16_t index);
 
-    bool isOccupied() { if (this->currentState == State::OCCUPIED) return true; else return false; }
-    bool isNotOccupied() { if (this->currentState == State::NOT_OCCUPIED) return true; else return false; }
+    /**
+     * Returns true if index matches either of eventIndexOccupied or eventIndexNotOccupied, else false.
+     */
+    bool eventIndexMatchesThisTOTI(uint16_t index);
+
+    /**
+     * Returns true if index matches the current state, else false.
+     * e.g. if index == eventIndexOccupied and the current state is occupied, then return true.
+     */
+    bool eventIndexMatchesCurrentState(uint16_t index);
 
     /**
      * Configures input and output pins.
@@ -54,6 +58,9 @@ class TOTI {
     uint16_t eventIndexOccupied;
     uint16_t eventIndexNotOccupied;
     State currentState;
+
+    bool isOccupied() { if (this->currentState == State::OCCUPIED) return true; else return false; }
+    bool isNotOccupied() { if (this->currentState == State::NOT_OCCUPIED) return true; else return false; }
 };
 
 #endif
