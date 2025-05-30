@@ -21,8 +21,10 @@ enum evStates { VALID=4, INVALID=5, UNKNOWN=7 };
 uint8_t userState(uint16_t index) {
   Serial.printf("\nIn userState() for event index = %d", index);
 
-  // TO DO: instaed of doing division and modulo arithmetic it would be better to do
+  // TO DO: instead of doing division and modulo arithmetic it would be better to do
   //  a comparison of the stored event indexes with the received index.
+  // Need a method .getCurrentStateForEvent(index).
+  // This code will step through all TOTI objects looking for a match.
 
   // Determine the TOTI for this event index.
   uint8_t myToti = index / 2;
