@@ -19,26 +19,20 @@ uint8_t outputPin[NUM_TOTI] = { 6, 10 };
  */
 enum evStates { VALID=4, INVALID=5, UNKNOWN=7 };
 uint8_t userState(uint16_t index) {
-  Serial.printf("\nIn userState() for event index = %d", index);
+  //Serial.printf("\nIn userState() for event index = %d", index);
 
-  // TO DO: instead of doing division and modulo arithmetic it would be better to do
-  //  a comparison of the stored event indexes with the received index.
-  // Need a method .getCurrentStateForEvent(index).
-  // This code will step through all TOTI objects looking for a match.
-
-  // Determine the TOTI for this event index.
-  uint8_t myToti = index / 2;
-  Serial.printf("\ntoti = %d", myToti);
-
-  // Determine whether this event index is for an ON or an OFF event.
-  if (index % 2 == 0) {
-    // index is even so this is an ON event.
-    // if (toti[myToti].getCurrentState() == State::OCCUPIED) return VALID; else return INVALID;
-    if (toti[myToti].isOccupied()) return VALID; else return INVALID;
-  } else {
-    // index is odd so this is an OFF event.
-    // if (toti[myToti].getCurrentState() == State::NOT_OCCUPIED) return VALID; else return INVALID;
-    if (toti[myToti].isNotOccupied()) return VALID; else return INVALID;
+  // Determine which TOTI object has this event index.
+  for (uint8_t i=0; i<NUM_TOTI; i++) {
+    //Serial.printf("\nChecking for matching TOTI %d", i);
+    if (toti[i].eventIndexMatchesThisTOTI(index)) {
+      // This TOTI object has this event index.
+      //Serial.printf("\nChecking for matching event");
+      if (toti[i].eventIndexMatchesCurrentState(index)) {
+        return VALID;
+      } else {
+        return INVALID;
+      }
+    }
   }
 
   return UNKNOWN; // In case index is not recognised.
@@ -74,5 +68,26 @@ void setup() {
     toti[i].setEventIndexON((i * 2) + 0);
     toti[i].setEventIndexOFF((i * 2) + 1);
     toti[i].initialise();
+  }
+}
+
+void loop() {
+  // Do OpenLCB/LCC processing.
+  Olcb_process();
+
+  // Check for any input processing required.
+  produceFromInputs();
+
+  // Attempt to connect to the OpenLCB/LCC hub and reconnect if contact has been lost.
+  if (hubConnectionMade()) {
+    // Turn the blue LED on.
+    digitalWrite(LED_BLUE, LOW);
+
+    sendInitialEvents();
+  }
+
+  if (hubConnectionLost()) {
+    // Turn the blue LED off.
+    digitalWrite(LED_BLUE, HIGH);
   }
 }

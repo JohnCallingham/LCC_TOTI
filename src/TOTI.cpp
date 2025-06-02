@@ -50,15 +50,13 @@ bool TOTI::eventIndexMatchesThisTOTI(uint16_t index) {
 }
 
 bool TOTI::eventIndexMatchesCurrentState(uint16_t index) {
-  if ((index == this->eventIndexOccupied) && (currentState == State::OCCUPIED)) {
-    return true;
-  } else {
-    return false;
+  if (index == this->eventIndexOccupied) {
+    if (currentState == State::OCCUPIED) return true; else return false;
+  } 
+  
+  if (index == this->eventIndexNotOccupied) {
+    if (currentState == State::NOT_OCCUPIED) return true; else return false;
   }
 
-  if ((index == this->eventIndexNotOccupied) && (currentState == State::NOT_OCCUPIED)) {
-    return true;
-  } else {
-    return false;
-  }
+  return false; // To keep the compiler happy
 }
