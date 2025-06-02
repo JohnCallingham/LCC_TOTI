@@ -42,11 +42,9 @@ int TOTI::process() {
 }
 
 bool TOTI::eventIndexMatchesThisTOTI(uint16_t index) {
-  if ((index == this->eventIndexOccupied) || (index == this->eventIndexNotOccupied)) {
-    return true;
-  } else {
-    return false;
-  }
+  if ((index == this->eventIndexOccupied) || (index == this->eventIndexNotOccupied)) return true;
+
+  return false;
 }
 
 bool TOTI::eventIndexMatchesCurrentState(uint16_t index) {
