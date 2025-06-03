@@ -16,10 +16,9 @@
  */
 class TOTI {
   public:
-    void setInputPin(uint8_t inputPin) { this->inputPin = inputPin; }
-    void setOutputPin(uint8_t outputPin) { this->outputPin = outputPin; }
-    void setEventIndexOccupied(uint16_t eventIndexOccupied) { this->eventIndexOccupied = eventIndexOccupied; }
-    void setEventIndexNotOccupied(uint16_t eventIndexNotOccupied) { this->eventIndexNotOccupied = eventIndexNotOccupied; }
+    TOTI(uint8_t inputPin, uint8_t outputPin);
+
+    void setEvents(uint16_t eventIndexOccupied, uint16_t eventIndexNotOccupied);
 
     /**
      * Returns true if index matches either of eventIndexOccupied or eventIndexNotOccupied, else false.
@@ -31,12 +30,6 @@ class TOTI {
      * e.g. if index == eventIndexOccupied and the current state is occupied, then return true.
      */
     bool eventIndexMatchesCurrentState(uint16_t index);
-
-    /**
-     * Configures input and output pins.
-     * Reads current state of input pin and sets currentState and output pin accordingly.
-     */
-    void initialise();
 
     /**
      * Returns the event index representing the current state.

@@ -3,13 +3,17 @@
 // inputPin is active low, i.e. low means OCCUPIED.
 // outputPin is active high, i.e. high lights the LED.
 
-void TOTI::initialise() {
+TOTI::TOTI(uint8_t inputPin, uint8_t outputPin) {
+  // Set the pins.
+  this->inputPin = inputPin;
+  this->outputPin = outputPin;
+
   // Configure input and output pins.
   pinMode(inputPin, INPUT_PULLUP);
   pinMode(outputPin, OUTPUT);
   
   // Set the initial state according to the actual state of the input pin
-  // and set the ouput pin accordingly.
+  // and set the output pin accordingly.
   if (digitalRead(inputPin) == LOW) {
     currentState = State::OCCUPIED;
     digitalWrite(outputPin, HIGH); // Turn LED on.
@@ -17,6 +21,11 @@ void TOTI::initialise() {
     currentState = State::NOT_OCCUPIED;
     digitalWrite(outputPin, LOW); // Turn LED off.
   }
+}
+
+void TOTI::setEvents(uint16_t eventIndexOccupied, uint16_t eventIndexNotOccupied) {
+  this->eventIndexOccupied = eventIndexOccupied;
+  this->eventIndexNotOccupied = eventIndexNotOccupied;
 }
 
 int TOTI::getEventForCurrentState() {
