@@ -67,3 +67,7 @@ bool TOTI::eventIndexMatchesCurrentState(uint16_t index) {
 
   return false; // To keep the compiler happy!
 }
+
+void TOTI::print() {
+  Serial.printf("\neventIndexOccupied=%#02X, eventIndexNotOccupied=%#02X", eventIndexOccupied, eventIndexNotOccupied);
+}

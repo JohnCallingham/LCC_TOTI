@@ -44,6 +44,8 @@ class TOTI {
      */
     int process();
 
+    void print();
+
   private:
     enum State { NOT_OCCUPIED, OCCUPIED };
     uint8_t inputPin;
