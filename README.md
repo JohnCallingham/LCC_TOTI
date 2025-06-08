@@ -1,4 +1,7 @@
 # TOTI
+
+This software component is part of a suite of components which can be used to build an OpenLCB/LCC node.
+
 This library contains two files TOTI.h and TOTI.cpp.
 
 It is designed to be part of an OpenLCB/LCCnode and was developed to be used with the OpenLCB_Single_Thread library (https://github.com/openlcb/OpenLCB_Single_Thread/tree/master).
