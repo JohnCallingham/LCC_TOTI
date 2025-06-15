@@ -35,14 +35,23 @@ class TOTI {
      * Returns the event index representing the current state.
      * Used when first connected to hub so that JMRI is set to the correct initial state.
      */
-    int getEventForCurrentState();
+    //int getEventForCurrentState();
+
+    void setSendEventCallbackFunction(void (*sendEvent)(uint16_t eventIndexToSend)) { this->sendEvent = sendEvent; }
+
+    /***
+     * Called when sending initial events.
+     * Used to initialise JMRI when JMRI starts after the node has started.
+     */
+    void sendEventsForCurrentState();
 
     /**
      * Tests the input pin to see if a change has occurred.
      * Does any required de-bouncing. TO DO.
      * Returns -1 if no change or the event index if an event is to be sent.
      */
-    int process();
+    // int process();
+    void process();
 
     void print();
 
@@ -56,6 +65,9 @@ class TOTI {
 
     bool isOccupied() { if (this->currentState == State::OCCUPIED) return true; else return false; }
     bool isNotOccupied() { if (this->currentState == State::NOT_OCCUPIED) return true; else return false; }
+
+    // Call back function to send events.
+    void (*sendEvent) (uint16_t eventIndexToSend);
 };
 
 #endif

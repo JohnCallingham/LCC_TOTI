@@ -28,26 +28,53 @@ void TOTI::setEvents(uint16_t eventIndexOccupied, uint16_t eventIndexNotOccupied
   this->eventIndexNotOccupied = eventIndexNotOccupied;
 }
 
-int TOTI::getEventForCurrentState() {
-  if (this->isOccupied()) return eventIndexOccupied;
-  if (this->isNotOccupied()) return eventIndexNotOccupied;
-  return -1; //error.
+// int TOTI::getEventForCurrentState() {
+//   if (this->isOccupied()) return eventIndexOccupied;
+//   if (this->isNotOccupied()) return eventIndexNotOccupied;
+//   return -1; //error.
+// }
+
+void TOTI::sendEventsForCurrentState() {
+  if (this->isOccupied()) {
+    if (sendEvent) sendEvent(eventIndexOccupied);
+  }
+  if (this->isNotOccupied()) {
+    if (sendEvent) sendEvent(eventIndexNotOccupied);
+  }
 }
 
-int TOTI::process() {
+// int TOTI::process() {
+//   if (this->isNotOccupied() && digitalRead(inputPin) == LOW) {
+//     this->currentState = State::OCCUPIED;
+//     digitalWrite(outputPin, HIGH); // light the output LED.
+//     return eventIndexOccupied;
+//   }
+
+//   if (this->isOccupied() && digitalRead(inputPin) == HIGH) {
+//     this->currentState = State::NOT_OCCUPIED;
+//     digitalWrite(outputPin, LOW); // extinguish the output LED.
+//     return eventIndexNotOccupied;
+//   }
+
+//   return -1;
+// }
+
+void TOTI::process() {
   if (this->isNotOccupied() && digitalRead(inputPin) == LOW) {
     this->currentState = State::OCCUPIED;
     digitalWrite(outputPin, HIGH); // light the output LED.
-    return eventIndexOccupied;
+    if (sendEvent) sendEvent(eventIndexOccupied);
+    //return eventIndexOccupied;
   }
 
   if (this->isOccupied() && digitalRead(inputPin) == HIGH) {
     this->currentState = State::NOT_OCCUPIED;
     digitalWrite(outputPin, LOW); // extinguish the output LED.
-    return eventIndexNotOccupied;
+    if (sendEvent) sendEvent(eventIndexNotOccupied);
+    //return eventIndexNotOccupied;
   }
 
-  return -1;
+  //return -1;
 }
 
 bool TOTI::eventIndexMatchesThisTOTI(uint16_t index) {
