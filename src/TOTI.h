@@ -15,7 +15,7 @@
 /**
  * Class TOTI represents one TOTI (Train On Track Indicator).
  */
-class TOTI : LCC_Node_Component_Base {
+class TOTI : public LCC_Node_Component_Base {
   public:
     TOTI(uint8_t inputPin, uint8_t outputPin);
     TOTI(uint8_t inputPin);
@@ -39,7 +39,7 @@ class TOTI : LCC_Node_Component_Base {
      */
     //int getEventForCurrentState();
 
-    void setSendEventCallbackFunction(void (*sendEvent)(uint16_t eventIndexToSend)) { this->sendEvent = sendEvent; }
+    // void setSendEventCallbackFunction(void (*sendEvent)(uint16_t eventIndexToSend)) { this->sendEvent = sendEvent; }
 
     /***
      * Called when sending initial events.
@@ -69,8 +69,8 @@ class TOTI : LCC_Node_Component_Base {
     bool isOccupied() { if (this->currentState == State::OCCUPIED) return true; else return false; }
     bool isNotOccupied() { if (this->currentState == State::NOT_OCCUPIED) return true; else return false; }
 
-    // Call back function to send events.
-    void (*sendEvent) (uint16_t eventIndexToSend);
+    // // Call back function to send events.
+    // void (*sendEvent) (uint16_t eventIndexToSend);
 };
 
 #endif
