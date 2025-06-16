@@ -25,13 +25,14 @@ class TOTI : public LCC_Node_Component_Base {
     /**
      * Returns true if index matches either of eventIndexOccupied or eventIndexNotOccupied, else false.
      */
-    bool eventIndexMatchesThisTOTI(uint16_t index);
+    // bool eventIndexMatchesThisTOTI(uint16_t index);
+    bool eventIndexMatches(uint16_t index) override;
 
     /**
      * Returns true if index matches the current state, else false.
      * e.g. if index == eventIndexOccupied and the current state is occupied, then return true.
      */
-    bool eventIndexMatchesCurrentState(uint16_t index);
+    bool eventIndexMatchesCurrentState(uint16_t index) override;
 
     /**
      * Returns the event index representing the current state.
@@ -45,7 +46,7 @@ class TOTI : public LCC_Node_Component_Base {
      * Called when sending initial events.
      * Used to initialise JMRI when JMRI starts after the node has started.
      */
-    void sendEventsForCurrentState();
+    void sendEventsForCurrentState() override;
 
     /**
      * Tests the input pin to see if a change has occurred.

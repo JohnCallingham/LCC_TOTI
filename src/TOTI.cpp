@@ -97,7 +97,12 @@ void TOTI::process() {
   //return -1;
 }
 
-bool TOTI::eventIndexMatchesThisTOTI(uint16_t index) {
+// bool TOTI::eventIndexMatchesThisTOTI(uint16_t index) {
+//   if ((index == this->eventIndexOccupied) || (index == this->eventIndexNotOccupied)) return true;
+
+//   return false;
+// }
+bool TOTI::eventIndexMatches(uint16_t index) {
   if ((index == this->eventIndexOccupied) || (index == this->eventIndexNotOccupied)) return true;
 
   return false;
