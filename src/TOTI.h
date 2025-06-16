@@ -10,13 +10,15 @@
  */
 
 #include <Arduino.h>
+#include "LCC_Node_Component_Base.h"
 
 /**
  * Class TOTI represents one TOTI (Train On Track Indicator).
  */
-class TOTI {
+class TOTI : LCC_Node_Component_Base {
   public:
     TOTI(uint8_t inputPin, uint8_t outputPin);
+    TOTI(uint8_t inputPin);
 
     void setEvents(uint16_t eventIndexOccupied, uint16_t eventIndexNotOccupied);
 
@@ -62,6 +64,7 @@ class TOTI {
     uint16_t eventIndexOccupied;
     uint16_t eventIndexNotOccupied;
     State currentState;
+    bool outputEnable; // True if an output pin has been defined, else False.
 
     bool isOccupied() { if (this->currentState == State::OCCUPIED) return true; else return false; }
     bool isNotOccupied() { if (this->currentState == State::NOT_OCCUPIED) return true; else return false; }

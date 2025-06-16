@@ -8,6 +8,8 @@ TOTI::TOTI(uint8_t inputPin, uint8_t outputPin) {
   this->inputPin = inputPin;
   this->outputPin = outputPin;
 
+  this->outputEnable = true;
+
   // Configure input and output pins.
   pinMode(inputPin, INPUT_PULLUP);
   pinMode(outputPin, OUTPUT);
@@ -20,6 +22,24 @@ TOTI::TOTI(uint8_t inputPin, uint8_t outputPin) {
   } else {
     currentState = State::NOT_OCCUPIED;
     digitalWrite(outputPin, LOW); // Turn LED off.
+  }
+}
+
+TOTI::TOTI(uint8_t inputPin) {
+  // Set the pins.
+  this->inputPin = inputPin;
+
+  this->outputEnable = false;
+
+  // Configure input and output pins.
+  pinMode(inputPin, INPUT_PULLUP);
+  
+  // Set the initial state according to the actual state of the input pin
+  // and set the output pin accordingly.
+  if (digitalRead(inputPin) == LOW) {
+    currentState = State::OCCUPIED;
+  } else {
+    currentState = State::NOT_OCCUPIED;
   }
 }
 
@@ -62,14 +82,14 @@ void TOTI::sendEventsForCurrentState() {
 void TOTI::process() {
   if (this->isNotOccupied() && digitalRead(inputPin) == LOW) {
     this->currentState = State::OCCUPIED;
-    digitalWrite(outputPin, HIGH); // light the output LED.
+    if (outputEnable) digitalWrite(outputPin, HIGH); // light the output LED.
     if (sendEvent) sendEvent(eventIndexOccupied);
     //return eventIndexOccupied;
   }
 
   if (this->isOccupied() && digitalRead(inputPin) == HIGH) {
     this->currentState = State::NOT_OCCUPIED;
-    digitalWrite(outputPin, LOW); // extinguish the output LED.
+    if (outputEnable) digitalWrite(outputPin, LOW); // extinguish the output LED.
     if (sendEvent) sendEvent(eventIndexNotOccupied);
     //return eventIndexNotOccupied;
   }
