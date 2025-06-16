@@ -58,6 +58,9 @@ class TOTI : public LCC_Node_Component_Base {
 
     void print();
 
+    // Made public so that the blue LED can be controlled.
+    bool isOccupied() { if (this->currentState == State::OCCUPIED) return true; else return false; }
+
   private:
     enum State { NOT_OCCUPIED, OCCUPIED };
     uint8_t inputPin;
@@ -67,7 +70,6 @@ class TOTI : public LCC_Node_Component_Base {
     State currentState;
     bool outputEnable; // True if an output pin has been defined, else False.
 
-    bool isOccupied() { if (this->currentState == State::OCCUPIED) return true; else return false; }
     bool isNotOccupied() { if (this->currentState == State::NOT_OCCUPIED) return true; else return false; }
 
     // // Call back function to send events.
