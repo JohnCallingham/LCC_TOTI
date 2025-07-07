@@ -1,4 +1,8 @@
 {
 "name": "TOTI",
-"version": "0.1.1"
+"version": "0.1.1",
+"dependencies":
+  {
+    "LCC_NODE_COMPONENT_BASE": "https://github.com/JohnCallingham/LCC_NODE_COMPONENT_BASE.git"
+  }
 }
