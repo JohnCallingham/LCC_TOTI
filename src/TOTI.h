@@ -25,7 +25,6 @@ class TOTI : public LCC_Node_Component_Base {
     /**
      * Returns true if index matches either of eventIndexOccupied or eventIndexNotOccupied, else false.
      */
-    // bool eventIndexMatchesThisTOTI(uint16_t index);
     bool eventIndexMatches(uint16_t index) override;
 
     /**
@@ -33,14 +32,6 @@ class TOTI : public LCC_Node_Component_Base {
      * e.g. if index == eventIndexOccupied and the current state is occupied, then return true.
      */
     bool eventIndexMatchesCurrentState(uint16_t index) override;
-
-    /**
-     * Returns the event index representing the current state.
-     * Used when first connected to hub so that JMRI is set to the correct initial state.
-     */
-    //int getEventForCurrentState();
-
-    // void setSendEventCallbackFunction(void (*sendEvent)(uint16_t eventIndexToSend)) { this->sendEvent = sendEvent; }
 
     /***
      * Called when sending initial events.
@@ -51,15 +42,13 @@ class TOTI : public LCC_Node_Component_Base {
     /**
      * Tests the input pin to see if a change has occurred.
      * Does any required de-bouncing. TO DO.
-     * Returns -1 if no change or the event index if an event is to be sent.
      */
-    // int process();
     void process();
 
     void print();
 
-    // Made public so that the blue LED can be controlled.
-    bool isOccupied() { if (this->currentState == State::OCCUPIED) return true; else return false; }
+    // Made public so that the selected LED can be controlled.
+    bool isOccupied() { return (this->currentState == State::OCCUPIED); }
 
   private:
     enum State { NOT_OCCUPIED, OCCUPIED };
@@ -70,10 +59,7 @@ class TOTI : public LCC_Node_Component_Base {
     State currentState;
     bool outputEnable; // True if an output pin has been defined, else False.
 
-    bool isNotOccupied() { if (this->currentState == State::NOT_OCCUPIED) return true; else return false; }
-
-    // // Call back function to send events.
-    // void (*sendEvent) (uint16_t eventIndexToSend);
+    bool isNotOccupied() { return (this->currentState == State::NOT_OCCUPIED); }
 };
 
 #endif
