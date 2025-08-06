@@ -4,6 +4,12 @@ This component is part of a suite of components which can be used as part of a p
 
 The file TOTI.h contains a single class which represents one TOTI (Train On Track Indicator).
 
+This component has one dependency;-
+- LCC_NODE_COMPONENT_BASE: https://github.com/JohnCallingham/LCC_NODE_COMPONENT_BASE.git
+
+This will be automatically downloaded when using PlatformIO.
+
+
 ## PlatformIO installation
 
 It can be installed in PlatformIO by adding the following line to platform.ini;-
