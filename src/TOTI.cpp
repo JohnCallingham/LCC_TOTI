@@ -1,7 +1,9 @@
 #include "TOTI.h"
 
-// inputPin is active low, i.e. low means OCCUPIED.
-// outputPin is active high, i.e. high lights the LED.
+/**
+ * inputPin is active low, i.e. low means OCCUPIED.
+ * outputPin is active high, i.e. high lights the LED.
+ */
 
 TOTI::TOTI(uint8_t inputPin, uint8_t outputPin) {
   // Set the pins.

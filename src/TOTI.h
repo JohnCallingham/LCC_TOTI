@@ -6,7 +6,7 @@
  * 1. Initialises the object without sending any events. Uses initialise().
  * 2. Sends events based on the current state at the time the hub is connected. Uses getEventForCurrentState().
  * 3. Sends events when a TOTI changes state. Uses process().
- * 4. Responds to a query from JMRI for current state based on event index. Uses eventIndexMatchesThisTOTI() and eventIndexMatchesCurrentState().
+ * 4. Responds to a query from JMRI for current state based on event index. Uses eventIndexMatches() and eventIndexMatchesCurrentState().
  */
 
 #include <Arduino.h>
