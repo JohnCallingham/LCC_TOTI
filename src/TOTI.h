@@ -12,6 +12,8 @@
 #include <Arduino.h>
 #include "LCC_Node_Component_Base.h"
 
+#define DEBOUNCE_DELAY_mS 100 // 100 mS debounce delay.
+
 /**
  * Class TOTI represents one TOTI (Train On Track Indicator).
  */
@@ -40,6 +42,12 @@ class TOTI : public LCC_Node_Component_Base {
     void sendEventsForCurrentState() override;
 
     /**
+     * Used to start or restart the debounce delay.
+     * The debounce timer is decremented every mS
+     */
+    void startDebounceTimer() { debounceTimer = DEBOUNCE_DELAY_mS; }
+
+    /**
      * Tests the input pin to see if a change has occurred.
      * Does any required de-bouncing. TO DO.
      */
@@ -52,11 +60,17 @@ class TOTI : public LCC_Node_Component_Base {
 
   private:
     enum State { NOT_OCCUPIED, OCCUPIED };
+    State currentState;
+
+    uint16_t debounceTimer = 0; // Used to debounce the input.
+    unsigned long milliSecondTimer = 0; // used to create an action every mS.
+
     uint8_t inputPin;
     uint8_t outputPin;
+
     uint16_t eventIndexOccupied;
     uint16_t eventIndexNotOccupied;
-    State currentState;
+
     bool outputEnable; // True if an output pin has been defined, else False.
 
     bool isNotOccupied() { return (this->currentState == State::NOT_OCCUPIED); }

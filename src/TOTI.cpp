@@ -60,6 +60,29 @@ void TOTI::sendEventsForCurrentState() {
 }
 
 void TOTI::process() {
+  // Every 1 mS decrement the debounce timer if it is non zero.
+  if (millis() >= milliSecondTimer) {
+    milliSecondTimer = millis() + 1;
+
+    // Decrement the debounce timer if it is non zero.
+    if (debounceTimer > 0) {
+      debounceTimer--;
+
+      // If input goes low, restart the debounce timer.
+      if (digitalRead(inputPin) == LOW) {
+        debounceTimer = DEBOUNCE_DELAY_mS;
+      }
+
+      // Check if the debounce timer has just expired.
+      if (debounceTimer == 0) {
+        // The debounce timer has just expired.
+        this->currentState = State::NOT_OCCUPIED;
+        if (outputEnable) digitalWrite(outputPin, LOW); // extinguish the output LED.
+        if (sendEvent) sendEvent(eventIndexNotOccupied);
+      }
+    }
+  }
+
   if (this->isNotOccupied() && digitalRead(inputPin) == LOW) {
     this->currentState = State::OCCUPIED;
     if (outputEnable) digitalWrite(outputPin, HIGH); // light the output LED.
@@ -67,9 +90,12 @@ void TOTI::process() {
   }
 
   if (this->isOccupied() && digitalRead(inputPin) == HIGH) {
-    this->currentState = State::NOT_OCCUPIED;
-    if (outputEnable) digitalWrite(outputPin, LOW); // extinguish the output LED.
-    if (sendEvent) sendEvent(eventIndexNotOccupied);
+    // Start the debounce timer.
+    debounceTimer = DEBOUNCE_DELAY_mS;
+
+    // this->currentState = State::NOT_OCCUPIED;
+    // if (outputEnable) digitalWrite(outputPin, LOW); // extinguish the output LED.
+    // if (sendEvent) sendEvent(eventIndexNotOccupied);
   }
 }
 
@@ -94,3 +120,19 @@ bool TOTI::eventIndexMatchesCurrentState(uint16_t index) {
 void TOTI::print() {
   Serial.printf("\neventIndexOccupied=%#02X, eventIndexNotOccupied=%#02X", eventIndexOccupied, eventIndexNotOccupied);
 }
+
+// Original without de-bounce.
+
+// void TOTI::process() {
+//   if (this->isNotOccupied() && digitalRead(inputPin) == LOW) {
+//     this->currentState = State::OCCUPIED;
+//     if (outputEnable) digitalWrite(outputPin, HIGH); // light the output LED.
+//     if (sendEvent) sendEvent(eventIndexOccupied);
+//   }
+
+//   if (this->isOccupied() && digitalRead(inputPin) == HIGH) {
+//     this->currentState = State::NOT_OCCUPIED;
+//     if (outputEnable) digitalWrite(outputPin, LOW); // extinguish the output LED.
+//     if (sendEvent) sendEvent(eventIndexNotOccupied);
+//   }
+// }
