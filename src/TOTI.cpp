@@ -62,10 +62,14 @@ void TOTI::sendEventsForCurrentState() {
 void TOTI::process() {
   // Every 1 mS decrement the debounce timer if it is non zero.
   if (millis() >= milliSecondTimer) {
+
+    //Serial.printf("\n%d in TOTI::process() inputPin %d = %d", millis(), inputPin, digitalRead(inputPin));
+
     milliSecondTimer = millis() + 1;
 
     // Decrement the debounce timer if it is non zero.
     if (debounceTimer > 0) {
+      //Serial.printf("\n%d debounceTimer=%d", millis(), debounceTimer);
       debounceTimer--;
 
       // If input goes low, restart the debounce timer.
@@ -89,7 +93,7 @@ void TOTI::process() {
     if (sendEvent) sendEvent(eventIndexOccupied);
   }
 
-  if (this->isOccupied() && digitalRead(inputPin) == HIGH) {
+  if ((this->isOccupied()) && (digitalRead(inputPin) == HIGH) && (debounceTimer == 0)) {
     // Start the debounce timer.
     debounceTimer = DEBOUNCE_DELAY_mS;
 
