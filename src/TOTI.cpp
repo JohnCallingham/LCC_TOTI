@@ -1,5 +1,25 @@
 #include "TOTI.h"
 
+Debounce::Debounce(uint8_t inputPin, uint16_t sampleTimemS, uint16_t lowDebounceTime, uint16_t highDebounceTime) {
+  this->inputPin = inputPin;
+  this->sampleTimemS = sampleTimemS;
+  this->lowDebounceTime = lowDebounceTime;
+  this->highDebounceTime = highDebounceTime;
+}
+
+void Debounce::process() {
+  // Implement a non blocking delay for sampleTimemS.
+  if (millis() < nextUpdate) return;
+  nextUpdate = millis() + sampleTimemS;
+
+  // sampleTimemS has passed since the last call to sample().
+  sample();
+}
+
+void Debounce::sample() {
+
+}
+
 /**
  * inputPin is active low, i.e. low means OCCUPIED.
  * outputPin is active high, i.e. high lights the LED.
