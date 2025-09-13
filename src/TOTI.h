@@ -62,7 +62,7 @@ class TOTI : public LCC_Node_Component_Base {
     // uint16_t debounceTimer = 0; // Used to debounce the input.
     // unsigned long milliSecondTimer = 0; // used to create an action every mS.
 
-    uint8_t inputPin;
+    // uint8_t inputPin;
     // uint8_t outputPin;
 
     uint16_t eventIndexOccupied;

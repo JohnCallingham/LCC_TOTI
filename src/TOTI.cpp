@@ -34,12 +34,12 @@ TOTI::TOTI(uint8_t inputPin) : debounce() {
   debounce.setLowSamples(100);
   debounce.setHighSamples(100);
 
-  // Set the pins.
-  this->inputPin = inputPin;
+  // Set the pin.
+  // this->inputPin = inputPin;
 
   // this->outputEnable = false;
 
-  // Configure input and output pins.
+  // Configure input pin (not done in the Debounce object).
   pinMode(inputPin, INPUT_PULLUP);
   
   // Set the initial state according to the actual state of the input pin
