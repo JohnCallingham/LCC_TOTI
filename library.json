@@ -3,6 +3,7 @@
 "version": "0.1.1",
 "dependencies":
   {
-    "LCC_NODE_COMPONENT_BASE": "https://github.com/JohnCallingham/LCC_NODE_COMPONENT_BASE.git"
+    "LCC_NODE_COMPONENT_BASE": "https://github.com/JohnCallingham/LCC_NODE_COMPONENT_BASE.git",
+    "DEBOUNCE": "https://github.com/JohnCallingham/DEBOUNCE.git"
   }
 }
