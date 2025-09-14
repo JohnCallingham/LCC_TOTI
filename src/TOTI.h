@@ -18,7 +18,6 @@
  */
 class TOTI : public LCC_Node_Component_Base {
   public:
-    // TOTI(uint8_t inputPin, uint8_t outputPin);
     TOTI(uint8_t inputPin);
 
     void setEvents(uint16_t eventIndexOccupied, uint16_t eventIndexNotOccupied);

@@ -5,28 +5,6 @@
  * outputPin is active high, i.e. high lights the LED.
  */
 
-// TOTI::TOTI(uint8_t inputPin, uint8_t outputPin) : debounce(1, 1, 100, 100) {
-//   // Set the pins.
-//   this->inputPin = inputPin;
-//   this->outputPin = outputPin;
-
-//   this->outputEnable = true;
-
-//   // Configure input and output pins.
-//   pinMode(inputPin, INPUT_PULLUP);
-//   pinMode(outputPin, OUTPUT);
-  
-//   // Set the initial state according to the actual state of the input pin
-//   // and set the output pin accordingly.
-//   if (digitalRead(inputPin) == LOW) {
-//     currentState = State::OCCUPIED;
-//     digitalWrite(outputPin, HIGH); // Turn LED on.
-//   } else {
-//     currentState = State::NOT_OCCUPIED;
-//     digitalWrite(outputPin, LOW); // Turn LED off.
-//   }
-// }
-
 TOTI::TOTI(uint8_t inputPin) : debounce() {
   // Initialise the debounce object.
   debounce.setInputPin(inputPin);
