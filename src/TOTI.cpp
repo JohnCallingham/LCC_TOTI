@@ -2,17 +2,13 @@
 
 /**
  * inputPin is active low, i.e. low means OCCUPIED.
- * outputPin is active high, i.e. high lights the LED.
  */
 
+// The TOTI constructor also constructs the Debounce object.
 TOTI::TOTI(uint8_t inputPin) : debounce() {
-  // Initialise the debounce object.
+  // Initialise the Debounce object.
+  // Use defaults for other parameters.
   debounce.setInputPin(inputPin);
-
-  // Use the defaults.
-  // debounce.setSampleTimemS(1);
-  // debounce.setLowSamples(100);
-  // debounce.setHighSamples(100);
 
   // Configure input pin (not done in the Debounce object).
   pinMode(inputPin, INPUT_PULLUP);
@@ -40,7 +36,8 @@ void TOTI::sendEventsForCurrentState() {
   }
 }
 
-void TOTI::process() {
+// void TOTI::process() {
+void TOTI::loop() {
   debounce.loop();
 
   // if (this->isNotOccupied() && digitalRead(inputPin) == LOW) {

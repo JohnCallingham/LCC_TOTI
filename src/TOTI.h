@@ -42,9 +42,10 @@ class TOTI : public LCC_Node_Component_Base {
     /**
      * Called repeatedly from the main program loop.
      * Tests the input pin to see if a change has occurred.
-     * Does any required de-bouncing. TO DO.
+     * Does any required de-bouncing.
      */
-    void process();
+    // void process();
+    void loop();
 
     void print();
 
@@ -52,22 +53,14 @@ class TOTI : public LCC_Node_Component_Base {
     bool isOccupied() { return (this->currentState == State::OCCUPIED); }
 
   private:
-    // Create a Debounce object.
+    // Declare a Debounce object which is contructed in the TOTI constructor.
     Debounce debounce;
 
     enum State { NOT_OCCUPIED, OCCUPIED };
     State currentState;
 
-    // uint16_t debounceTimer = 0; // Used to debounce the input.
-    // unsigned long milliSecondTimer = 0; // used to create an action every mS.
-
-    // uint8_t inputPin;
-    // uint8_t outputPin;
-
     uint16_t eventIndexOccupied;
     uint16_t eventIndexNotOccupied;
-
-    // bool outputEnable; // True if an output pin has been defined, else False.
 
     bool isNotOccupied() { return (this->currentState == State::NOT_OCCUPIED); }
 };
