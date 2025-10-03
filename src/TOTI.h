@@ -13,6 +13,8 @@
 #include "LCC_Node_Component_Base.h"
 #include "Debounce.h"
 
+#define DEBOUNCE_SAMPLE_TIME_mS 1 // Debounce sampling every 1 mS.
+
 /**
  * Class TOTI represents one TOTI (Train On Track Indicator).
  */
@@ -33,11 +35,31 @@ class TOTI : public LCC_Node_Component_Base {
      */
     bool eventIndexMatchesCurrentState(uint16_t index) override;
 
-    /***
+    /**
      * Called when sending initial events.
      * Used to initialise JMRI when JMRI starts after the node has started.
      */
     void sendEventsForCurrentState() override;
+
+    /**
+     * Sets the number of milliSeconds that the TOTI must permanantly indicate occupied
+     *  before the occupied event is sent.
+     * Needs to take into account the Debounce object's sample time (mS).
+     *  E.g. if the sample time is 1 mS and the required delay is 100 mS,
+     *  then the debounce object must take 100 samples all indicating occupied
+     *  before the occupied event is sent.
+     */
+    void setOccupiedDebounceDelay(uint16_t delaymS);
+
+    /**
+     * Sets the number of milliSeconds that the TOTI must permanantly indicate not occupied
+     *  before the not occupied event is sent.
+     * Needs to take into account the Debounce object's sample time (mS).
+     *  E.g. if the sample time is 2 mS and the required delay is 1000 mS,
+     *  then the debounce object must take 500 samples all indicating not occupied
+     *  before the not occupied event is sent.
+     */
+    void setNotOccupiedDebounceDelay(uint16_t delaymS);
 
     /**
      * Called repeatedly from the main program loop.

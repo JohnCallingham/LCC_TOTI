@@ -7,14 +7,15 @@
 // The TOTI constructor also constructs the Debounce object.
 TOTI::TOTI(uint8_t inputPin) : debounce() {
   // Initialise the Debounce object.
-  // Use defaults for other parameters.
+  // Use defaults for other parameters unless overridden by
+  //  debounce.set...() methods.
   debounce.setInputPin(inputPin);
+  debounce.setSampleTimemS(DEBOUNCE_SAMPLE_TIME_mS);
 
   // Configure input pin (not done in the Debounce object).
   pinMode(inputPin, INPUT_PULLUP);
   
-  // Set the initial state according to the actual state of the input pin
-  // and set the output pin accordingly.
+  // Set the initial state according to the actual state of the input pin.
   if (digitalRead(inputPin) == LOW) {
     currentState = State::OCCUPIED;
   } else {
@@ -34,6 +35,22 @@ void TOTI::sendEventsForCurrentState() {
   if (this->isNotOccupied()) {
     if (sendEvent) sendEvent(eventIndexNotOccupied);
   }
+}
+
+void TOTI::setOccupiedDebounceDelay(uint16_t delaymS) {
+  // Convert occupied debounce delay from mS to samples.
+  uint16_t samples = delaymS / DEBOUNCE_SAMPLE_TIME_mS;
+
+  // Low indicates occupied.
+  debounce.setLowSamples(samples);
+}
+
+void TOTI::setNotOccupiedDebounceDelay(uint16_t delaymS) {
+  // Convert not occupied debounce delay from mS to samples.
+  uint16_t samples = delaymS / DEBOUNCE_SAMPLE_TIME_mS;
+
+  // High indicates not occupied.
+  debounce.setHighSamples(samples);
 }
 
 // void TOTI::process() {
