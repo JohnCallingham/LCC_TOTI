@@ -62,6 +62,11 @@ class TOTI : public LCC_Node_Component_Base {
     void setNotOccupiedDebounceDelay(uint16_t delaymS);
 
     /**
+     * Only used for the test start and test stop events.
+     */
+    void eventReceived(uint16_t index);
+
+    /**
      * Called repeatedly from the main program loop.
      * Tests the input pin to see if a change has occurred.
      * Does any required de-bouncing.

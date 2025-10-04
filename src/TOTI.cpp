@@ -53,6 +53,20 @@ void TOTI::setNotOccupiedDebounceDelay(uint16_t delaymS) {
   debounce.setHighSamples(samples);
 }
 
+void TOTI::eventReceived(uint16_t index) {
+  /**
+   * Handle the test cycle start and stop events.
+   */
+  if (index == testStartEventIndex) {
+    // Serial.printf("\nTOTI %d starting the testing cycle.", toti);
+    Serial.printf("\nTOTI starting the testing cycle.");
+  }
+  if (index == testStopEventIndex) {
+    // Serial.printf("\nTOTI %d stopping the testing cycle.", servoNumber);
+    Serial.printf("\nTOTI stopping the testing cycle.");
+  }
+}
+
 // void TOTI::process() {
 void TOTI::loop() {
   debounce.loop();
@@ -73,7 +87,12 @@ void TOTI::loop() {
 }
 
 bool TOTI::eventIndexMatches(uint16_t index) {
-  if ((index == this->eventIndexOccupied) || (index == this->eventIndexNotOccupied)) return true;
+  // Check for one of the testing event indexes.
+  if ((index == this->testStartEventIndex) ||
+      (index == this->testStopEventIndex)) return true;
+
+  if ((index == this->eventIndexOccupied) ||
+      (index == this->eventIndexNotOccupied)) return true;
 
   return false;
 }
