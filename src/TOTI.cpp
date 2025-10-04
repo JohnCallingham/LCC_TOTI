@@ -5,7 +5,9 @@
  */
 
 // The TOTI constructor also constructs the Debounce object.
-TOTI::TOTI(uint8_t inputPin) : debounce() {
+TOTI::TOTI(uint8_t totiNumber, uint8_t inputPin) : debounce() {
+  this->totiNumber = totiNumber;
+
   // Initialise the Debounce object.
   // Use defaults for other parameters unless overridden by
   //  debounce.set...() methods.
@@ -58,12 +60,10 @@ void TOTI::eventReceived(uint16_t index) {
    * Handle the test cycle start and stop events.
    */
   if (index == testStartEventIndex) {
-    // Serial.printf("\nTOTI %d starting the testing cycle.", toti);
-    Serial.printf("\nTOTI starting the testing cycle.");
+    Serial.printf("\nTOTI %d starting the testing cycle.", totiNumber);
   }
   if (index == testStopEventIndex) {
-    // Serial.printf("\nTOTI %d stopping the testing cycle.", servoNumber);
-    Serial.printf("\nTOTI stopping the testing cycle.");
+    Serial.printf("\nTOTI %d stopping the testing cycle.", totiNumber);
   }
 }
 

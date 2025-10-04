@@ -20,7 +20,7 @@
  */
 class TOTI : public LCC_Node_Component_Base {
   public:
-    TOTI(uint8_t inputPin);
+    TOTI(uint8_t totiNumber, uint8_t inputPin);
 
     void setEvents(uint16_t eventIndexOccupied, uint16_t eventIndexNotOccupied);
 
@@ -82,6 +82,8 @@ class TOTI : public LCC_Node_Component_Base {
   private:
     // Declare a Debounce object which is contructed in the TOTI constructor.
     Debounce debounce;
+
+    uint8_t totiNumber;
 
     enum State { NOT_OCCUPIED, OCCUPIED };
     State currentState;
