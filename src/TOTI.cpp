@@ -5,8 +5,13 @@
  */
 
 // The TOTI constructor also constructs the Debounce object.
-TOTI::TOTI(uint8_t totiNumber, uint8_t inputPin) : debounce() {
+TOTI::TOTI(uint8_t totiNumber, uint8_t inputPin, uint8_t testPin) : debounce() {
   this->totiNumber = totiNumber;
+  this->testPin = testPin;
+
+  // Set the testPin as an output and set it high so that it doesn't interfere with normal operation.
+  pinMode(testPin, OUTPUT);
+  digitalWrite(testPin, HIGH);
 
   // Initialise the Debounce object.
   // Use defaults for other parameters unless overridden by
@@ -61,28 +66,40 @@ void TOTI::eventReceived(uint16_t index) {
    */
   if (index == testStartEventIndex) {
     Serial.printf("\nTOTI %d starting the testing cycle.", totiNumber);
+
+    // Set the first test.
+    currentTest = OUTPUT_HIGH;
+
+    // Set the timer so that testing starts immediately.
+    testingTimer = millis();
+
+    testing = true;
   }
   if (index == testStopEventIndex) {
     Serial.printf("\nTOTI %d stopping the testing cycle.", totiNumber);
+
+    // Set the testPin high so it doesn't interfere with normal operataion.
+    digitalWrite(testPin, HIGH);
+
+    testing = false;
   }
 }
 
-// void TOTI::process() {
 void TOTI::loop() {
   debounce.loop();
 
-  // if (this->isNotOccupied() && digitalRead(inputPin) == LOW) {
   if ((this->isNotOccupied()) && (debounce.outputState == LOW)) {
     this->currentState = State::OCCUPIED;
-    // if (outputEnable) digitalWrite(outputPin, HIGH); // light the output LED.
     if (sendEvent) sendEvent(eventIndexOccupied);
   }
 
-  // if (this->isOccupied() && digitalRead(inputPin) == HIGH) {
   if ((this->isOccupied()) && (debounce.outputState == HIGH)) {
     this->currentState = State::NOT_OCCUPIED;
-    // if (outputEnable) digitalWrite(outputPin, LOW); // extinguish the output LED.
     if (sendEvent) sendEvent(eventIndexNotOccupied);
+  }
+
+  if (testing) {
+    testLoop();
   }
 }
 
@@ -113,72 +130,26 @@ void TOTI::print() {
   Serial.printf("\neventIndexOccupied=%#02X, eventIndexNotOccupied=%#02X", eventIndexOccupied, eventIndexNotOccupied);
 }
 
+void TOTI::testLoop() {
 
-
-// Original de-bounced version.
-
-// void TOTI::process() {
-//   Every 1 mS decrement the debounce timer if it is non zero.
-//   if (millis() >= milliSecondTimer) {
-
-//     //Serial.printf("\n%d in TOTI::process() inputPin %d = %d", millis(), inputPin, digitalRead(inputPin));
-
-//     milliSecondTimer = millis() + 1;
-
-//     // Decrement the debounce timer if it is non zero.
-//     if (debounceTimer > 0) {
-//       //Serial.printf("\n%d debounceTimer=%d", millis(), debounceTimer);
-//       debounceTimer--;
-
-//       // If input goes low, restart the debounce timer.
-//       if (digitalRead(inputPin) == LOW) {
-//         debounceTimer = DEBOUNCE_DELAY_mS;
-//       }
-
-//       // Check if the debounce timer has just expired.
-//       if (debounceTimer == 0) {
-//         // The debounce timer has just expired.
-//         this->currentState = State::NOT_OCCUPIED;
-//         if (outputEnable) digitalWrite(outputPin, LOW); // extinguish the output LED.
-//         if (sendEvent) sendEvent(eventIndexNotOccupied);
-//       }
-//     }
-//   }
-
-//   if (this->isNotOccupied() && digitalRead(inputPin) == LOW) {
-//     this->currentState = State::OCCUPIED;
-//     if (outputEnable) digitalWrite(outputPin, HIGH); // light the output LED.
-//     if (sendEvent) sendEvent(eventIndexOccupied);
-//   }
-
-//   if ((this->isOccupied()) && (digitalRead(inputPin) == HIGH) && (debounceTimer == 0)) {
-//     // Start the debounce timer.
-//     debounceTimer = DEBOUNCE_DELAY_mS;
-
-//     // this->currentState = State::NOT_OCCUPIED;
-//     // if (outputEnable) digitalWrite(outputPin, LOW); // extinguish the output LED.
-//     // if (sendEvent) sendEvent(eventIndexNotOccupied);
-//   }
-// }
-
-
-// Debounce::Debounce(uint8_t inputPin, uint16_t sampleTimemS, uint16_t lowDebounceTime, uint16_t highDebounceTime) {
-//   this->inputPin = inputPin;
-//   this->sampleTimemS = sampleTimemS;
-//   this->lowDebounceTime = lowDebounceTime;
-//   this->highDebounceTime = highDebounceTime;
-// }
-
-// void Debounce::process() {
-//   // Implement a non blocking delay for sampleTimemS.
-//   if (millis() < nextUpdate) return;
-//   nextUpdate = millis() + sampleTimemS;
-
-//   // sampleTimemS has passed since the last call to sample().
-//   sample();
-// }
-
-// void Debounce::sample() {
-
-// }
-
+  if (millis() >= testingTimer) {
+    // Time to move to the next part of the test cycle.
+    switch (currentTest)
+      {
+      case OUTPUT_HIGH:
+        digitalWrite(testPin, HIGH);
+        testingTimer = millis() + 1000;
+        currentTest = OUTPUT_LOW;
+        break;
+      
+      case OUTPUT_LOW:
+        digitalWrite(testPin, LOW);
+        testingTimer = millis() + 1000;
+        currentTest = OUTPUT_HIGH;
+        break;
+      
+      default:
+        break;
+    }
+  }
+}
