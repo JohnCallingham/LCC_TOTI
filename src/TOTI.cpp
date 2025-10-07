@@ -98,9 +98,7 @@ void TOTI::loop() {
     if (sendEvent) sendEvent(eventIndexNotOccupied);
   }
 
-  if (testing) {
-    testLoop();
-  }
+  if (testing) testLoop();
 }
 
 bool TOTI::eventIndexMatches(uint16_t index) {
@@ -131,25 +129,24 @@ void TOTI::print() {
 }
 
 void TOTI::testLoop() {
+  if (millis() < testingTimer) return;
 
-  if (millis() >= testingTimer) {
-    // Time to move to the next part of the test cycle.
-    switch (currentTest)
-      {
-      case OUTPUT_HIGH:
-        digitalWrite(testPin, HIGH);
-        testingTimer = millis() + 1000;
-        currentTest = OUTPUT_LOW;
-        break;
-      
-      case OUTPUT_LOW:
-        digitalWrite(testPin, LOW);
-        testingTimer = millis() + 1000;
-        currentTest = OUTPUT_HIGH;
-        break;
-      
-      default:
-        break;
-    }
+  // Time to move to the next part of the test cycle.
+
+  switch (currentTest) {
+    case OUTPUT_HIGH:
+      digitalWrite(testPin, HIGH);
+      testingTimer = millis() + 1000;
+      currentTest = OUTPUT_LOW;
+      break;
+    
+    case OUTPUT_LOW:
+      digitalWrite(testPin, LOW);
+      testingTimer = millis() + 1000;
+      currentTest = OUTPUT_HIGH;
+      break;
+    
+    default:
+      break;
   }
 }
