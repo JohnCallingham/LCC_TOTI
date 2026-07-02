@@ -10,7 +10,6 @@ This component has two dependencies;-
 
 This will be automatically downloaded when using PlatformIO.
 
-
 ## PlatformIO installation
 
 It can be installed in PlatformIO by adding the following line to platform.ini;-
@@ -20,3 +19,12 @@ lib_deps = https://github.com/JohnCallingham/LCC_TOTI.git
 ## Arduino IDE installation
 
 It can be installed into the Arduino IDE by downloading the .zip file and adding to the Arduino library using Sketch -> Include Library -> Add .Zip Library
+
+## Functions
+
+The following functionality is implemented for each TOTI;-
+- The delay before the TOTI shows occupied can be set.
+- The delay before the TOTI shows not occupied can be set.
+- An event is sent when the TOTI becomes occupied.
+- An event is sent when the TOTI becomes not occupied.
+
