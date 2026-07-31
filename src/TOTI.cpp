@@ -65,7 +65,7 @@ void TOTI::eventReceived(uint16_t index) {
    * Handle the test cycle start and stop events.
    */
   if (index == testStartEventIndex) {
-    Serial.printf("\nTOTI %d starting the testing cycle.", totiNumber);
+    Serial.printf("\n%6ld TOTI %d starting the testing cycle", millis(), totiNumber);
 
     // Set the first test.
     currentTest = OUTPUT_HIGH;
@@ -76,7 +76,7 @@ void TOTI::eventReceived(uint16_t index) {
     testing = true;
   }
   if (index == testStopEventIndex) {
-    Serial.printf("\nTOTI %d stopping the testing cycle.", totiNumber);
+    Serial.printf("\n%6ld TOTI %d stopping the testing cycle", millis(), totiNumber);
 
     // Set the testPin high so it doesn't interfere with normal operataion.
     digitalWrite(testPin, HIGH);
@@ -125,7 +125,7 @@ bool TOTI::eventIndexMatchesCurrentState(uint16_t index) {
 }
 
 void TOTI::print() {
-  Serial.printf("\neventIndexOccupied=%#02X, eventIndexNotOccupied=%#02X", eventIndexOccupied, eventIndexNotOccupied);
+  Serial.printf("\n%6ld eventIndexOccupied=%#02X, eventIndexNotOccupied=%#02X", millis(), eventIndexOccupied, eventIndexNotOccupied);
 }
 
 void TOTI::testLoop() {
