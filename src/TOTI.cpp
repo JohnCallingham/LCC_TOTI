@@ -61,6 +61,10 @@ void TOTI::setNotOccupiedDebounceDelay(uint16_t delaymS) {
 }
 
 void TOTI::eventReceived(uint16_t index) {
+  if (logMessage) {
+    logMessage("\n%6ld [TOTI::eventReceived] called with index=0x%02X for toti %d", millis(), index, totiNumber);
+  }
+
   /**
    * Handle the test cycle start and stop events.
    */
