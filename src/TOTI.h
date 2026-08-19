@@ -79,6 +79,7 @@ class TOTI : public LCC_Node_Component_Base {
     // Made public so that the selected LED can be controlled.
     bool isOccupied() { return (this->currentState == State::OCCUPIED); }
 
+    // This function is called when the user selects this TOTI from the telnet menu.
     void menuHandler();
 
   private:
@@ -103,6 +104,9 @@ class TOTI : public LCC_Node_Component_Base {
     Test currentTest;
 
     void testLoop();
+
+    // Returns "OCCUPIED" or "NOT OCCUPIED" according to currentState.
+    String state();
 };
 
 #endif

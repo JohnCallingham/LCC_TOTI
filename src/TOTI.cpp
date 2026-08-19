@@ -155,7 +155,17 @@ void TOTI::testLoop() {
   }
 }
 
-void TOTI::menuHandler() {
-  TelnetLCC::logMessageCallbackFunction("[TOTI::menuHandler] here toti %d\r\n", totiNumber);
+String TOTI::state() {
+  if (this->isOccupied()) return "OCCUPIED";
+  if (this->isNotOccupied()) return "NOT OCCUPIED";
+  return "";
+}
 
+void TOTI::menuHandler() {
+  if (logMessage) {
+    logMessage("Data for TOTI %d;-\r\n", totiNumber);
+    logMessage("eventIndexOccupied: 0x%02X\r\n", eventIndexOccupied);
+    logMessage("eventIndexNotOccupied: 0x%02X\r\n", eventIndexNotOccupied);
+    logMessage("currentState: %s\r\n", this->state());
+  }
 }
