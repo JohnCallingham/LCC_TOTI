@@ -154,3 +154,8 @@ void TOTI::testLoop() {
       break;
   }
 }
+
+void TOTI::menuHandler() {
+  TelnetLCC::logMessageCallbackFunction("[TOTI::menuHandler] here toti %d\r\n", totiNumber);
+
+}

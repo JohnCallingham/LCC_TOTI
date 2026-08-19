@@ -79,6 +79,8 @@ class TOTI : public LCC_Node_Component_Base {
     // Made public so that the selected LED can be controlled.
     bool isOccupied() { return (this->currentState == State::OCCUPIED); }
 
+    void menuHandler();
+
   private:
     // Declare a Debounce object which is contructed in the TOTI constructor.
     Debounce debounce;
