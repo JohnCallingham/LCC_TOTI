@@ -166,6 +166,6 @@ void TOTI::menuHandler() {
     logMessage("  Data for TOTI %d;-\r\n", totiNumber);
     logMessage("      eventIndexOccupied: 0x%02X\r\n", eventIndexOccupied);
     logMessage("   eventIndexNotOccupied: 0x%02X\r\n", eventIndexNotOccupied);
-    logMessage("            currentState: %s\r\n", this->state());
+    logMessage("            currentState: %s\r\n", this->state().c_str());
   }
 }
