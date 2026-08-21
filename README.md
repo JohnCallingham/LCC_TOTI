@@ -2,13 +2,17 @@
 
 This component is part of a suite of components which can be used as part of a program which implements an [OpenLCB/LCC](https://openlcb.org/) node. It has been developed using PlatformIO and has been tested on an Arduino Nano ESP32.
 
-The file TOTI.h contains a single class which represents one TOTI (Train On Track Indicator).
+## Files
+
+**TOTI.h** and **TOTI.cpp**. These files create a class ```TOTI``` which represents one TOTI (Train On Track Indicator).
+
+## Dependencies
 
 This component has two dependencies;-
 - [LCC_NODE_COMPONENT_BASE](https://github.com/JohnCallingham/LCC_NODE_COMPONENT_BASE.git)
 - [DEBOUNCE](https://github.com/JohnCallingham/DEBOUNCE.git)
 
-This will be automatically downloaded when using PlatformIO.
+PlatformIO's Library Dependency Finder handles the downloading of all required dependencies.
 
 ## PlatformIO installation
 
