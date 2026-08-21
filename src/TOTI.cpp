@@ -61,10 +61,6 @@ void TOTI::setNotOccupiedDebounceDelay(uint16_t delaymS) {
 }
 
 void TOTI::eventReceived(uint16_t index) {
-  // if (logMessage) {
-  //   logMessage("\n%6ld [TOTI::eventReceived] called with index=0x%02X for toti %d", millis(), index, totiNumber);
-  // }
-
   /**
    * Handle the test cycle start and stop events.
    */
@@ -163,9 +159,9 @@ String TOTI::state() {
 
 void TOTI::menuHandler() {
   if (logMessage) {
-    logMessage("  Data for TOTI %d;-\r\n", totiNumber);
-    logMessage("      eventIndexOccupied: 0x%02X\r\n", eventIndexOccupied);
-    logMessage("   eventIndexNotOccupied: 0x%02X\r\n", eventIndexNotOccupied);
-    logMessage("            currentState: %s\r\n", this->state().c_str());
+    // logMessage("  Data for TOTI %d;-\r\n", totiNumber);
+    // logMessage("      eventIndexOccupied: 0x%02X\r\n", eventIndexOccupied);
+    // logMessage("   eventIndexNotOccupied: 0x%02X\r\n", eventIndexNotOccupied);
+    logMessage("    TOTI %d current state: %s\r\n", totiNumber, this->state().c_str());
   }
 }
